@@ -50,7 +50,7 @@ class CourseController extends Controller
 
         $course = Course::create($data);
 
-        return response()->json($course);
+        return response()->json($course, 201);
     }
 
     /**
@@ -66,14 +66,29 @@ class CourseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $data = $request->only(['title', 'description']);
+
+        $course = Course::findOrFail($id);
+        $course->update($data);
+
+        return response()->json($course);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $course = Course::findOrFail($id);
+        $course->delete();
+
+        if ($course->trashed()) {
+            return response()->noContent();
+        }
+        else {
+            return response()->json(['error' => 'The deletion of record failed'], 500);
+        }
     }
 }
