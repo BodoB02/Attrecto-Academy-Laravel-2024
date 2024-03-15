@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CourseController extends Controller
 {
@@ -50,7 +52,7 @@ class CourseController extends Controller
 
         $course = Course::create($data);
 
-        return response()->json($course, 201);
+        return response()->json($course, Response::HTTP_CREATED);
     }
 
     /**
@@ -58,19 +60,14 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
-        return response()->json(Course::find($id));
+        return response()->json(Course::findOrFail($id));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCourseRequest $request, string $id)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
-
         $data = $request->only(['title', 'description']);
 
         $course = Course::findOrFail($id);
@@ -84,11 +81,6 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         $course->delete();
 
-        if ($course->trashed()) {
-            return response()->noContent();
-        }
-        else {
-            return response()->json(['error' => 'The deletion of record failed'], 500);
-        }
+       return response()->json('', Response::HTTP_NO_CONTENT);
     }
 }
