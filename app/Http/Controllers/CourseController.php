@@ -6,7 +6,8 @@ use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+//use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class CourseController extends Controller
 {
@@ -35,7 +36,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return response()->json(Course::all());
+        $course = response()->json(Course::all(['id','title','description']));
+        response()->json($course);
     }
 
     /**
@@ -58,27 +60,25 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Course $course)
     {
-        return response()->json(Course::findOrFail($id));
+        return response()->json($course);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseRequest $request, string $id)
+    public function update(UpdateCourseRequest $request, Course $course)
     {
         $data = $request->only(['title', 'description']);
 
-        $course = Course::findOrFail($id);
         $course->update($data);
 
         return response()->json($course);
     }
 
-    public function destroy(string $id)
+    public function destroy(Course $course)
     {
-        $course = Course::findOrFail($id);
         $course->delete();
 
        return response()->json('', Response::HTTP_NO_CONTENT);
