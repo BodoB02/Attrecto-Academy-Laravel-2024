@@ -6,8 +6,9 @@ use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
-//use Illuminate\Http\Response;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Response;
+//use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\CourseIndexResource;
 
 class CourseController extends Controller
 {
@@ -36,8 +37,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = response()->json(Course::all(['id','title','description']));
-        response()->json($course);
+        response()->json(CourseIndexResource::collection(Course::all()), Response::HTTP_OK);
     }
 
     /**
