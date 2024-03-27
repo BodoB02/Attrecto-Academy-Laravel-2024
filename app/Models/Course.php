@@ -17,12 +17,6 @@ class Course extends Model
         'author',
         'url'
     ];
-<<<<<<< HEAD
-    public function author(){
-        return $this->hasOne(User::class, "id", "author_id");
-    }
-}
-=======
 
     protected function author():Attribute {
         return new Attribute(
@@ -31,4 +25,3 @@ class Course extends Model
         );
     }
 }
->>>>>>> 7ee5ed741d13135d4182a9968e8f5dd3486b503a

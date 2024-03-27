@@ -9,10 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-<<<<<<< HEAD
-use Attribute;
-=======
->>>>>>> 7ee5ed741d13135d4182a9968e8f5dd3486b503a
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -48,10 +44,6 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-<<<<<<< HEAD
-=======
-
->>>>>>> 7ee5ed741d13135d4182a9968e8f5dd3486b503a
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -71,15 +63,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-<<<<<<< HEAD
-    public function courses(){
-        return $this->hasMany(Course::class,'author_id','id');
-    }
-    public function TitleWithAuthor():Attribute {
-        return new Attribute(
-            fn($value) => this->author ? $this->title . '/' . $this->author->name: 'Ismeretlen',
-            fn($value) => $value,
-=======
 
     /**
      * @return HasOne
@@ -90,7 +73,6 @@ class User extends Authenticatable implements JWTSubject
             User::class,
             'id',
             'author_id'
->>>>>>> 7ee5ed741d13135d4182a9968e8f5dd3486b503a
         );
     }
 }
