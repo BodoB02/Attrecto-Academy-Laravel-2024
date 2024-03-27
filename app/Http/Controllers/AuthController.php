@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
@@ -9,11 +10,12 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
+     * @param LoginRequest $request
      * @return JsonResponse
      */
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only('email', 'password');
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
