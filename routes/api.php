@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -34,9 +36,26 @@ Route::group([
 
 });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('login',  [AuthController::class, 'login']);
+    //Route::post('logout', 'AuthController@logout');
+    //Route::post('refresh', 'AuthController@refresh');
+    //Route::post('me', 'AuthController@me');
+});
+
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{course}', [CourseController::class, 'show']);
 Route::post('/courses', [CourseController::class, 'store']);
+<<<<<<< HEAD
 Route::put('/courses/{course}', [CourseController::class,'update']);
 Route::delete('/courses/{course}', [CourseController::class,'destroy']);
 Route::post('/users', [UserController::class,'store']);
+=======
+Route::put('/courses/{id}', [CourseController::class, 'update']);
+Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+
+Route::post('/users', [UserController::class, 'store']);
+>>>>>>> 7ee5ed741d13135d4182a9968e8f5dd3486b503a
